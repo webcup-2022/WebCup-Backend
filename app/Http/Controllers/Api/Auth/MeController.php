@@ -19,7 +19,7 @@ class MeController extends Controller
     {
         if($request->user()){
             return response()->json([
-                'data' => $request->user()
+                'data' => $request->user()->load(['social'])
             ]);
         }
         else{
@@ -40,7 +40,6 @@ class MeController extends Controller
     {
         if($this->auth->user()){
             auth()->logout();
-
             return response()->json([
                 'success' => true
             ]);
