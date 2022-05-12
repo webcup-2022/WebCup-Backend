@@ -83,7 +83,8 @@ class SocialLoginController extends Controller
                     $user = User::create([
                         "name" => $data->getName(),
                         "email" => $data->getEmail(),
-                        "password" => ""
+                        "password" => "",
+                        "avatar" => $data->getAvatar(),
                     ]);
 
                     $user_social = UserSocial::create([
