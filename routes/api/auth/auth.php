@@ -14,8 +14,9 @@ Route::group([
     /**
      * auth action
      */
+    Route::post('logout', [MeController::class, 'logout']);
+    Route::post('set-password', [MeController::class, 'setPassword']);
     Route::group(['middleware' => 'throttle:20,5'], function(){
-        Route::post('logout', [MeController::class, 'logout']);
         Route::post('me', [MeController::class, 'index']);
     });
 
