@@ -24,7 +24,7 @@ class VerificationController extends Controller
 
         $user->email_verified_at = $date;
         $user->save();
-
-        return redirect("https://voay.giprod.mg/auth/login");
+      
+        return redirect(env('CLIENT_BASE_URL')."/admin/dashboard");
     }
 }

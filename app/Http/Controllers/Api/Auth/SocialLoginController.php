@@ -74,10 +74,17 @@ class SocialLoginController extends Controller
                                 }
                             }
                         }
+
+                        if(!$user->email_verified_at){
+                            User::where('email', $email)->update(["email_verified_at" => date("Y-m-d g:i:s")]);
+                        }
                         //redirect with token
                         $this->dataToSend["token"] = $this->auth->fromUser($user);
                         $this->dataToSend["action"] = "login";
                     } else {
+                        if(!$user->email_verified_at){
+                            User::where('email', $email)->update(["email_verified_at" => date("Y-m-d g:i:s")]);
+                        }
                         //if user has password => don't need to set password in front else need to set password
                         if($user->password){
                             $user_social = UserSocial::create([
@@ -107,6 +114,7 @@ class SocialLoginController extends Controller
                         "email" => $data->getEmail(),
                         "password" => "",
                         "avatar" => $data->getAvatar(),
+                        "email_verified_at" => date("Y-m-d g:i:s")
                     ]);
 
                     $user_social = UserSocial::create([

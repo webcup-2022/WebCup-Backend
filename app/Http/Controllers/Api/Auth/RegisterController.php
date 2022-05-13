@@ -53,10 +53,14 @@ class RegisterController extends Controller
         $validator = $this->validator($request->all());
         if (!$validator->fails()) {
             $user = $this->create($request->all());
-
-            $user->sendEmailVerificationNotification();
-
-            $token = $this->auth->attempt($request->only('email', 'password'));
+        
+            try{
+                $user->sendEmailVerificationNotification();
+                $token = $this->auth->attempt($request->only('email', 'password'));
+            }
+            catch(Exception $e){
+                return response->json(["errors" => $e->getMessage()]);
+            }
 
             return response()->json([
                 'token' => $token
