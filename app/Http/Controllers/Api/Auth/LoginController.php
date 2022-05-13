@@ -82,10 +82,6 @@ class LoginController extends Controller
                 ], 422);
             }
             // if you reached here then user has been authenticated
-            if (empty(auth()->user()->email_verified_at))
-            {
-                return response()->json(['error' => 'Your have not verified your email.'], 401);
-            }
         } catch (JWTException $e) {
             return response()->json([
                 'errors' => [

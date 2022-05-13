@@ -25,6 +25,6 @@ class VerificationController extends Controller
         $user->email_verified_at = $date;
         $user->save();
 
-        return redirect("http://localhost:3000/auth/login");
+        return redirect(env('CLIENT_BASE_URL')."/admin/dashboard");
     }
 }
