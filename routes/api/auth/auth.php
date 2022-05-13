@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\SocialLoginController;
+use App\Http\Controllers\Api\Auth\VerificationController;
 
 Route::group([
 
@@ -26,6 +27,11 @@ Route::group([
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
 
+    /**
+     * form verification
+    */
+
+    Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])->name('verification.verify')->middleware(['signed']);
     /**
      * social authentication
      */
