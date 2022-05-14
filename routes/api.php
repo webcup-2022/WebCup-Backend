@@ -26,6 +26,10 @@ Route::post('newsletter', function(Request $request){
         'email' => 'required|email',
     ]);
 
+    if(!$request->input('email')){
+        return response()->json(["errors" => "Veuillez remplir "]);
+    }
+
     $user = NewsLetter::create($request->all());
 
     Mail::to($user->email)->send(new MailNewsLetterController($user));
