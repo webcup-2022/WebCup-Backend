@@ -19,6 +19,7 @@ Route::group([
     Route::post('set-password', [MeController::class, 'setPassword']);
     Route::group(['middleware' => 'throttle:20,5'], function(){
         Route::post('me', [MeController::class, 'index']);
+        Route::post('update-profil',[MeController::class,'updateProfil']);
     });
 
     /**

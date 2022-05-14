@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 require_once 'api/auth/auth.php';
+require_once 'api/article/article.php';

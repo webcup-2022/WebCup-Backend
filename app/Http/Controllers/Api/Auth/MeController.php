@@ -7,9 +7,12 @@ use App\Models\User;
 use App\Models\UserSocial;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
+use Intervention\Image\Facades\Image;
+use App\Traits\MediaTrait;
 
 class MeController extends Controller
 {
+    use MediaTrait;
     protected $auth;
 
     public function __construct(JWTAuth $auth)
@@ -79,5 +82,45 @@ class MeController extends Controller
             }
         }
         return response()->json(["message" => "L'opération a été effectué avec succès"]);
+    }
+    public function updateProfil(Request $request){
+        if($request->user()){
+            $user = $request->user();
+           // dd($request->file('avatar'));
+            if($request->file('avatar')) {
+
+                $fileData = $this->uploads($request->file('avatar'), 'images/avatars/');
+
+                $image = Image::make(public_path($fileData["filePath"]));
+
+                $image->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $image->save();
+
+              //  dd($fileData['filePath']);
+
+                $data['avatar'] = $fileData['filePath'];
+            }
+
+            // dd($request->file('avatar'));
+
+            $user->update([
+                "name" => $request->input('name'),
+                "email" => $request->input('email'),
+                "avatar" => $data['avatar'] ?? ""
+            ]);
+            return response()->json([
+                'data' => $user
+            ]);
+        }
+        else{
+            return response()->json([
+                "errors" => [
+                    "message" => "Invalid Token"
+                ]
+            ]);
+        }
     }
 }
